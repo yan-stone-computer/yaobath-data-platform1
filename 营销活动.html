@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瑶族药浴数据精准营销分析平台 - 营销活动</title>
+    <link rel="stylesheet" href="https://demo-html-zip.oss-cn-hangzhou.aliyuncs.com/js/bootstrap.min.css">
+    <script src="https://demo-html-zip.oss-cn-hangzhou.aliyuncs.com/js/jquery-3.5.1.slim.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif !important;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #2c5530;
+        }
+        .navbar a {
+            color: white;
+        }
+        main {
+            background-color: #ffffff;
+            min-height: 800px;
+            padding-top: 20px;
+        }
+        footer {
+            background-color: #2c5530;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .dashboard-header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .section-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            color: #2c5530;
+            border-bottom: 2px solid #2c5530;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .btn-primary-custom {
+            background-color: #2c5530;
+            color: white;
+            border: none;
+        }
+        .btn-primary-custom:hover {
+            background-color: #1e3a23;
+            color: white;
+        }
+        .wizard-step {
+            display: none;
+        }
+        .wizard-step.active {
+            display: block;
+        }
+        .wizard-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .campaign-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        .campaign-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .campaign-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        .status-active {
+            background-color: #e8f5e9;
+            color: #2c5530;
+        }
+        .status-completed {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        .status-draft {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+        .kpi-card {
+            background: linear-gradient(135deg, #2c5530, #4a7c59);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .kpi-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .kpi-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .ab-test-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .test-variant {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .chart-container {
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        .tab-content {
+            padding: 20px 0;
+        }
+        .customer-group-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .customer-group-card:hover {
+            background-color: #f8f9fa;
+        }
+        .customer-group-card.selected {
+            border-color: #2c5530;
+            background-color: #e8f5e9;
+        }
+        .material-preview {
+            width: 100%;
+            height: 120px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            color: #6c757d;
+        }
+        .channel-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .channel-option.selected {
+            border-color: #2c5530;
+            background-color: #e8f5e9;
+        }
+        .channel-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: #2c5530;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">
+        <i class="fas fa-leaf mr-2"></i>瑶族药浴数据精准营销分析平台
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="首页.html">首页</a></li>
+            <li class="nav-item"><a class="nav-link" href="数据看板.html">数据看板</a></li>
+            <li class="nav-item"><a class="nav-link" href="客户洞察.html">客户洞察</a></li>
+            <li class="nav-item"><a class="nav-link" href="内容工坊.html">内容工坊</a></li>
+            <li class="nav-item active"><a class="nav-link" href="营销活动.html">营销活动</a></li>
+            <li class="nav-item"><a class="nav-link" href="知识库.html">知识库</a></li>
+            <li class="nav-item"><a class="nav-link" href="个人账户.html">个人账户/商家后台</a></li>
+        </ul>
+        <div class="navbar-nav ml-auto">
+            <a class="nav-link text-light" href="#"><i class="fas fa-bell"></i></a>
+            <a class="nav-link text-light" href="#"><i class="fas fa-user-circle"></i> 管理员</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <!-- 页面标题 -->
+    <div class="dashboard-header">
+        <h1 class="text-center">营销活动</h1>
+        <p class="text-center">执行精准营销活动的控制台</p>
+    </div>
+
+    <!-- 内容标签 -->
+    <ul class="nav nav-tabs" id="campaignTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="create-tab" data-toggle="tab" href="#create" role="tab">创建活动</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tracking-tab" data-toggle="tab" href="#tracking" role="tab">活动追踪</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="abtest-tab" data-toggle="tab" href="#abtest" role="tab">A/B测试</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="campaignTabsContent">
+        <!-- 活动创建向导 -->
+        <div class="tab-pane fade show active" id="create" role="tabpanel">
+            <div class="section-container">
+                <h3 class="section-title">创建营销活动</h3>
+                
+                <!-- 向导步骤1: 活动目标 -->
+                <div class="wizard-step active" id="step1">
+                    <h4>步骤 1: 定义活动目标</h4>
+                    <p>请选择本次营销活动的主要目标</p>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card text-center p-3 mb-3 campaign-type" data-type="promotion">
+                                <i class="fas fa-tag fa-2x mb-2 text-primary"></i>
+                                <h5>促销转化</h5>
+                                <p class="text-muted">提升产品销量，促进客户购买</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center p-3 mb-3 campaign-type" data-type="traffic">
+                                <i class="fas fa-users fa-2x mb-2 text-success"></i>
+                                <h5>引流获客</h5>
+                                <p class="text-muted">吸引新客户，扩大客户群体</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center p-3 mb-3 campaign-type" data-type="awakening">
+                                <i class="fas fa-bell fa-2x mb-2 text-warning"></i>
+                                <h5>客户唤醒</h5>
+                                <p class="text-muted">激活沉睡客户，提升复购率</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="wizard-navigation">
+                        <div></div>
+                        <button class="btn btn-primary-custom" onclick="nextStep(1)">下一步</button>
+                    </div>
+                </div>
+                
+                <!-- 向导步骤2: 目标客户 -->
+                <div class="wizard-step" id="step2">
+                    <h4>步骤 2: 选择目标客户群</h4>
+                    <p>请选择本次营销活动要触达的客户群体</p>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="customer-group-card" data-group="highValue">
+                                <h5>高价值客户</h5>
+                                <p class="text-muted">消费金额 > ¥1000 且 最近3个月有购买</p>
+                                <span class="badge badge-info">1,248人</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="customer-group-card" data-group="new">
+                                <h5>新客户</h5>
+                                <p class="text-muted">注册时间在30天内</p>
+                                <span class="badge badge-info">542人</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="customer-group-card" data-group="sleeping">
+                                <h5>沉睡客户</h5>
+                                <p class="text-muted">最后购买时间 > 60天</p>
+                                <span class="badge badge-info">856人</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="customer-group-card" data-group="shoulder">
+                                <h5>关注肩颈护理</h5>
+                                <p class="text-muted">购买过肩颈调理产品或浏览相关内容</p>
+                                <span class="badge badge-info">2,145人</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="wizard-navigation">
+                        <button class="btn btn-outline-secondary" onclick="prevStep(2)">上一步</button>
+                        <button class="btn btn-primary-custom" onclick="nextStep(2)">下一步</button>
+                    </div>
+                </div>
+                
+                <!-- 向导步骤3: 活动内容 -->
+                <div class="wizard-step" id="step3">
+                    <h4>步骤 3: 设置活动内容</h4>
+                    <p>请选择或创建本次营销活动的内容</p>
+                    
+                    <div class="form-group">
+                        <label for="campaignName">活动名称</label>
+                        <input type="text" class="form-control" id="campaignName" placeholder="请输入活动名称">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="campaignContent">选择内容素材</label>
+                        <select class="form-control" id="campaignContent">
+                            <option value="">-- 请选择内容素材 --</option>
+                            <option value="material1">秋季养生药浴指南</option>
+                            <option value="material2">肩颈调理专题文章</option>
+                            <option value="material3">瑶族药浴文化介绍</option>
+                            <option value="material4">冬季养生海报</option>
+                            <option value="material5">新品上市通知</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>内容预览</label>
+                        <div class="material-preview">
+                            <i class="fas fa-file-alt fa-2x"></i>
+                            <span class="ml-2">选择素材后显示预览</span>
+                        </div>
+                    </div>
+                    
+                    <div class="wizard-navigation">
+                        <button class="btn btn-outline-secondary" onclick="prevStep(3)">上一步</button>
+                        <button class="btn btn-primary-custom" onclick="nextStep(3)">下一步</button>
+                    </div>
+                </div>
+                
+                <!-- 向导步骤4: 推送渠道 -->
+                <div class="wizard-step" id="step4">
+                    <h4>步骤 4: 选择推送渠道</h4>
+                    <p>请选择本次营销活动的推送渠道</p>
+                    
+                    <div class="channel-option" data-channel="wechat">
+                        <div class="channel-icon">
+                            <i class="fab fa-weixin"></i>
+                        </div>
+                        <div>
+                            <h5>微信消息</h5>
+                            <p class="text-muted mb-0">通过微信公众号向客户发送消息</p>
+                        </div>
+                    </div>
+                    
+                    <div class="channel-option" data-channel="sms">
+                        <div class="channel-icon">
+                            <i class="fas fa-sms"></i>
+                        </div>
+                        <div>
+                            <h5>短信</h5>
+                            <p class="text-muted mb-0">直接发送短信到客户手机</p>
+                        </div>
+                    </div>
+                    
+                    <div class="channel-option" data-channel="email">
+                        <div class="channel-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h5>电子邮件</h5>
+                            <p class="text-muted mb-0">发送营销邮件到客户邮箱</p>
+                        </div>
+                    </div>
+                    
+                    <div class="channel-option" data-channel="app">
+                        <div class="channel-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div>
+                            <h5>APP推送</h5>
+                            <p class="text-muted mb-0">通过APP向用户发送推送通知</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group mt-3">
+                        <label for="scheduleTime">推送时间</label>
+                        <input type="datetime-local" class="form-control" id="scheduleTime">
+                    </div>
+                    
+                    <div class="wizard-navigation">
+                        <button class="btn btn-outline-secondary" onclick="prevStep(4)">上一步</button>
+                        <button class="btn btn-primary-custom" onclick="createCampaign()">创建活动</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 活动效果追踪 -->
+        <div class="tab-pane fade" id="tracking" role="tabpanel">
+            <div class="section-container">
+                <h3 class="section-title">活动效果追踪</h3>
+                
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="kpi-card">
+                            <div class="kpi-label">打开率</div>
+                            <div class="kpi-value">24.8%</div>
+                            <div class="kpi-trend">环比增长 3.2%</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="kpi-card">
+                            <div class="kpi-label">点击率</div>
+                            <div class="kpi-value">12.5%</div>
+                            <div class="kpi-trend">环比增长 1.8%</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="kpi-card">
+                            <div class="kpi-label">转化率</div>
+                            <div class="kpi-value">8.3%</div>
+                            <div class="kpi-trend">环比增长 2.1%</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="kpi-card">
+                            <div class="kpi-label">ROI</div>
+                            <div class="kpi-value">3.2x</div>
+                            <div class="kpi-trend">投资回报率</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="campaignPerformanceChart"></canvas>
+                </div>
+                
+                <h4 class="mt-4">活动列表</h4>
+                <div class="campaign-card">
+                    <span class="campaign-status status-active">进行中</span>
+                    <h5>秋季养生药浴推广</h5>
+                    <p class="text-muted">目标: 促销转化 | 客户群: 高价值客户 | 渠道: 微信消息</p>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <small>打开率: <strong>26.3%</strong></small>
+                        </div>
+                        <div class="col-md-3">
+                            <small>点击率: <strong>13.7%</strong></small>
+                        </div>
+                        <div class="col-md-3">
+                            <small>转化率: <strong>9.2%</strong></small>
+                        </div>
+                        <div class="col-md-3">
+                            <small>ROI: <strong>3.5x</strong></small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="campaign-card">
+                    <span class="campaign-status status-completed">已完成</span>
+                    <h5>肩颈调理专题活动</h5>
+                    <p class="text-muted">目标: 引流获客 | 客户群: 关注肩颈护理 | 渠道: 电子邮件</p>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <small>打开率: <strong>22.1%</strong></small>
+                        </div>
+                        <div class="col-md-3">
+                            <small>点击率: <strong>10.8%</strong></small>
+                        </div>
+                        <div class="col-md-3">
+                            <small>转化率: <strong>6.5%</strong></small>
+                        </div>
+                        <div class="col-md-3">
+                            <small>ROI: <strong>2.8x</strong></small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="campaign-card">
+                    <span class="campaign-status status-draft">草稿</span>
+                    <h5>冬季养生预热活动</h5>
+                    <p class="text-muted">目标: 客户唤醒 | 客户群: 沉睡客户 | 渠道: 短信</p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <small>状态: <strong>尚未发布</strong></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- A/B测试 -->
+        <div class="tab-pane fade" id="abtest" role="tabpanel">
+            <div class="section-container">
+                <h3 class="section-title">A/B测试</h3>
+                <p>创建不同版本的活动内容，测试哪个版本效果更好</p>
+                
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="abTestName">测试名称</label>
+                            <input type="text" class="form-control" id="abTestName" placeholder="请输入A/B测试名称">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="testAudience">测试受众比例</label>
+                            <select class="form-control" id="testAudience">
+                                <option value="50-50">50% - 50%</option>
+                                <option value="60-40">60% - 40%</option>
+                                <option value="70-30">70% - 30%</option>
+                                <option value="80-20">80% - 20%</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="ab-test-card">
+                            <h5>版本 A</h5>
+                            <div class="form-group">
+                                <label for="variantATitle">标题</label>
+                                <input type="text" class="form-control" id="variantATitle" placeholder="输入版本A的标题">
+                            </div>
+                            <div class="form-group">
+                                <label for="variantAContent">内容</label>
+                                <textarea class="form-control" id="variantAContent" rows="3" placeholder="输入版本A的内容"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="variantAImage">选择图片</label>
+                                <select class="form-control" id="variantAImage">
+                                    <option value="image1">瑶族药浴文化图</option>
+                                    <option value="image2">产品功效对比图</option>
+                                    <option value="image3">用户案例图</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="ab-test-card">
+                            <h5>版本 B</h5>
+                            <div class="form-group">
+                                <label for="variantBTitle">标题</label>
+                                <input type="text" class="form-control" id="variantBTitle" placeholder="输入版本B的标题">
+                            </div>
+                            <div class="form-group">
+                                <label for="variantBContent">内容</label>
+                                <textarea class="form-control" id="variantBContent" rows="3" placeholder="输入版本B的内容"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="variantBImage">选择图片</label>
+                                <select class="form-control" id="variantBImage">
+                                    <option value="image1">瑶族药浴文化图</option>
+                                    <option value="image2">产品功效对比图</option>
+                                    <option value="image3">用户案例图</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary-custom mt-3" onclick="createABTest()">创建A/B测试</button>
+                
+                <h4 class="mt-5">进行中的A/B测试</h4>
+                <div class="ab-test-card">
+                    <h5>秋季养生标题测试</h5>
+                    <p class="text-muted">测试不同标题对打开率的影响</p>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="test-variant">
+                                <div>
+                                    <h6>版本 A</h6>
+                                    <p class="mb-0">"秋季养生，从瑶族药浴开始"</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="kpi-value">25.3%</div>
+                                    <div class="kpi-label">打开率</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="test-variant">
+                                <div>
+                                    <h6>版本 B</h6>
+                                    <p class="mb-0">"瑶族秘方，助您度过健康秋季"</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="kpi-value">28.7%</div>
+                                    <div class="kpi-label">打开率</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress mt-3">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45% - 版本A</div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">55% - 版本B</div>
+                    </div>
+                    
+                    <div class="text-right mt-2">
+                        <button class="btn btn-sm btn-outline-success">选择版本B为优胜者</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>版权所有 &copy; 2025 瑶族药浴数据精准营销分析平台</p>
+    <p>客服热线: 400-123-4567 | 邮箱: support@yaozuyaoyu.com</p>
+</footer>
+
+<script src="https://demo-html-zip.oss-cn-hangzhou.aliyuncs.com/js/popper.min.js"></script>
+<script src="https://demo-html-zip.oss-cn-hangzhou.aliyuncs.com/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // 活动创建向导交互
+        $('.campaign-type').click(function() {
+            $('.campaign-type').removeClass('border-primary');
+            $(this).addClass('border-primary');
+        });
+        
+        $('.customer-group-card').click(function() {
+            $('.customer-group-card').removeClass('selected');
+            $(this).addClass('selected');
+        });
+        
+        $('.channel-option').click(function() {
+            $('.channel-option').removeClass('selected');
+            $(this).addClass('selected');
+        });
+        
+        // 活动效果追踪图表
+        const performanceCtx = document.getElementById('campaignPerformanceChart').getContext('2d');
+        const performanceChart = new Chart(performanceCtx, {
+            type: 'line',
+            data: {
+                labels: ['9月17日', '9月24日', '10月1日', '10月8日', '10月15日'],
+                datasets: [{
+                    label: '打开率 (%)',
+                    data: [21, 23, 22, 24, 26],
+                    borderColor: '#2c5530',
+                    backgroundColor: 'rgba(44, 85, 48, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: '点击率 (%)',
+                    data: [10, 11, 10, 12, 13],
+                    borderColor: '#4a7c59',
+                    backgroundColor: 'rgba(74, 124, 89, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: '转化率 (%)',
+                    data: [6, 7, 6, 8, 9],
+                    borderColor: '#6da37a',
+                    backgroundColor: 'rgba(109, 163, 122, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+    
+    // 向导步骤控制
+    let currentStep = 1;
+    
+    function nextStep(step) {
+        $(`#step${step}`).removeClass('active');
+        $(`#step${step+1}`).addClass('active');
+        currentStep = step + 1;
+    }
+    
+    function prevStep(step) {
+        $(`#step${step}`).removeClass('active');
+        $(`#step${step-1}`).addClass('active');
+        currentStep = step - 1;
+    }
+    
+    function createCampaign() {
+        const campaignName = $('#campaignName').val();
+        if (!campaignName) {
+            alert('请输入活动名称');
+            return;
+        }
+        
+        alert(`营销活动"${campaignName}"创建成功！`);
+        // 实际应用中这里会调用API创建活动
+        // 重置向导
+        $(`#step4`).removeClass('active');
+        $(`#step1`).addClass('active');
+        currentStep = 1;
+    }
+    
+    function createABTest() {
+        const testName = $('#abTestName').val();
+        if (!testName) {
+            alert('请输入测试名称');
+            return;
+        }
+        
+        alert(`A/B测试"${testName}"创建成功！`);
+        // 实际应用中这里会调用API创建A/B测试
+    }
+</script>
+<script>
+    document.oncontextmenu = () => false;
+    document.onkeydown = function(e) {
+        if (e.keyCode === 123) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 73) return false;
+        if (e.ctrlKey && e.keyCode === 85) return false;
+    }
+</script>
+</body>
+</html>
