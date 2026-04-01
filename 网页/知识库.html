@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瑶族药浴数据精准营销分析平台 - 知识库</title>
+    <link rel="stylesheet" href="https://demo-html-zip.oss-cn-hangzhou.aliyuncs.com/js/bootstrap.min.css">
+    <script src="https://demo-html-zip.oss-cn-hangzhou.aliyuncs.com/js/jquery-3.5.1.slim.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif !important;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #2c5530;
+        }
+        .navbar a {
+            color: white;
+        }
+        main {
+            background-color: #ffffff;
+            min-height: 800px;
+            padding-top: 20px;
+        }
+        footer {
+            background-color: #2c5530;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .dashboard-header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .section-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            color: #2c5530;
+            border-bottom: 2px solid #2c5530;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .btn-primary-custom {
+            background-color: #2c5530;
+            color: white;
+            border: none;
+        }
+        .btn-primary-custom:hover {
+            background-color: #1e3a23;
+            color: white;
+        }
+        .knowledge-card {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        .knowledge-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+        .herb-image {
+            width: 100%;
+            height: 150px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            color: #6c757d;
+        }
+        .tab-content {
+            padding: 20px 0;
+        }
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .knowledge-tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .knowledge-tag {
+            background-color: #e8f5e9;
+            color: #2c5530;
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+        }
+        .search-box {
+            position: relative;
+        }
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+        }
+        .search-result-item {
+            padding: 10px 15px;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+        }
+        .search-result-item:hover {
+            background-color: #f8f9fa;
+        }
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        .formula-card {
+            border-left: 4px solid #2c5530;
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+        .marketing-case {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .case-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .case-stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c5530;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        .category-nav {
+            margin-bottom: 20px;
+        }
+        .category-item {
+            padding: 10px 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .category-item:hover, .category-item.active {
+            background-color: #2c5530;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">
+        <i class="fas fa-leaf mr-2"></i>瑶族药浴数据精准营销分析平台
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="首页.html">首页</a></li>
+            <li class="nav-item"><a class="nav-link" href="数据看板.html">数据看板</a></li>
+            <li class="nav-item"><a class="nav-link" href="客户洞察.html">客户洞察</a></li>
+            <li class="nav-item"><a class="nav-link" href="内容工坊.html">内容工坊</a></li>
+            <li class="nav-item"><a class="nav-link" href="营销活动.html">营销活动</a></li>
+            <li class="nav-item active"><a class="nav-link" href="知识库.html">知识库</a></li>
+            <li class="nav-item"><a class="nav-link" href="个人账户.html">个人账户/商家后台</a></li>
+        </ul>
+        <div class="navbar-nav ml-auto">
+            <a class="nav-link text-light" href="#"><i class="fas fa-bell"></i></a>
+            <a class="nav-link text-light" href="#"><i class="fas fa-user-circle"></i> 管理员</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <!-- 页面标题 -->
+    <div class="dashboard-header">
+        <h1 class="text-center">知识库</h1>
+        <p class="text-center">瑶族药浴专业知识与营销方法的百科全书</p>
+    </div>
+
+    <!-- 搜索与分类 -->
+    <div class="filter-section">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group search-box">
+                    <label for="knowledgeSearch">搜索知识</label>
+                    <input type="text" class="form-control" id="knowledgeSearch" placeholder="输入关键词搜索药材、配方或营销知识">
+                    <div class="search-results" id="searchResults">
+                        <!-- 搜索结果将通过JavaScript动态填充 -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="knowledgeCategory">知识分类</label>
+                    <select class="form-control" id="knowledgeCategory">
+                        <option value="all">全部分类</option>
+                        <option value="herbs">药材百科</option>
+                        <option value="formulas">配方与症候</option>
+                        <option value="marketing">营销指南</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category-nav">
+            <div class="category-item active" data-category="all">全部</div>
+            <div class="category-item" data-category="herbs">药材百科</div>
+            <div class="category-item" data-category="formulas">配方与症候</div>
+            <div class="category-item" data-category="marketing">营销指南</div>
+        </div>
+    </div>
+
+    <!-- 内容标签 -->
+    <ul class="nav nav-tabs" id="knowledgeTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="herbs-tab" data-toggle="tab" href="#herbs" role="tab">药材百科</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="formulas-tab" data-toggle="tab" href="#formulas" role="tab">配方与症候</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="marketing-tab" data-toggle="tab" href="#marketing" role="tab">营销指南</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="knowledgeTabsContent">
+        <!-- 药材百科 -->
+        <div class="tab-pane fade show active" id="herbs" role="tabpanel">
+            <div class="section-container">
+                <h3 class="section-title">药材百科</h3>
+                <p>详细介绍各种瑶族草药的功效、用法与禁忌</p>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="knowledge-card">
+                            <div class="herb-image">
+                                <i class="fas fa-leaf fa-3x"></i>
+                            </div>
+                            <h5>九龙藤</h5>
+                            <p class="text-muted">瑶族常用药材，具有祛风除湿、活血止痛的功效</p>
+                            <div class="knowledge-tags">
+                                <span class="knowledge-tag">祛风除湿</span>
+                                <span class="knowledge-tag">活血止痛</span>
+                                <span class="knowledge-tag">常用药材</span>
+                            </div>
+                            <button class="btn btn-primary-custom btn-sm mt-2" data-toggle="modal" data-target="#herbDetailModal" data-herb="九龙藤">查看详情</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="knowledge-card">
+                            <div class="herb-image">
+                                <i class="fas fa-leaf fa-3x"></i>
+                            </div>
+                            <h5>血风藤</h5>
+                            <p class="text-muted">补血活血，舒筋活络，常用于产后调理和贫血症状</p>
+                            <div class="knowledge-tags">
+                                <span class="knowledge-tag">补血活血</span>
+                                <span class="knowledge-tag">舒筋活络</span>
+                                <span class="knowledge-tag">产后调理</span>
+                            </div>
+                            <button class="btn btn-primary-custom btn-sm mt-2" data-toggle="modal" data-target="#herbDetailModal" data-herb="血风藤">查看详情</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="knowledge-card">
+                            <div class="herb-image">
+                                <i class="fas fa-leaf fa-3x"></i>
+                            </div>
+                            <h5>走马胎</h5>
+                            <p class="text-muted">祛风除湿，强筋健骨，对风湿痹痛有显著效果</p>
+                            <div class="knowledge-tags">
+                                <span class="knowledge-tag">祛风除湿</span>
+                                <span class="knowledge-tag">强筋健骨</span>
+                                <span class="knowledge-tag">风湿痹痛</span>
+                            </div>
+                            <button class="btn btn-primary-custom btn-sm mt-2" data-toggle="modal" data-target="#herbDetailModal" data-herb="走马胎">查看详情</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="knowledge-card">
+                            <div class="herb-image">
+                                <i class="fas fa-leaf fa-3x"></i>
+                            </div>
+                            <h5>半枫荷</h5>
+                            <p class="text-muted">活血祛瘀，消肿止痛，常用于跌打损伤和关节疼痛</p>
+                            <div class="knowledge-tags">
+                                <span class="knowledge-tag">活血祛瘀</span>
+                                <span class="knowledge-tag">消肿止痛</span>
+                                <span class="knowledge-tag">关节疼痛</span>
+                            </div>
+                            <button class="btn btn-primary-custom btn-sm mt-2" data-toggle="modal" data-target="#herbDetailModal" data-herb="半枫荷">查看详情</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="knowledge-card">
+                            <div class="herb-image">
+                                <i class="fas fa-leaf fa-3x"></i>
+                            </div>
+                            <h5>五指毛桃</h5>
+                            <p class="text-muted">健脾补肺，行气利湿，舒筋活络，增强免疫力</p>
+                            <div class="knowledge-tags">
+                                <span class="knowledge-tag">健脾补肺</span>
+                                <span class="knowledge-tag">舒筋活络</span>
+                                <span class="knowledge-tag">增强免疫</span>
+                            </div>
+                            <button class="btn btn-primary-custom btn-sm mt-2" data-toggle="modal" data-target="#herbDetailModal" data-herb="五指毛桃">查看详情</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="knowledge-card">
+                            <div class="herb-image">
+                                <i class="fas fa-leaf fa-3x"></i>
+                            </div>
+                            <h5>九节茶</h5>
+                            <p class="text-muted">清热解毒，祛风止痛，活血散瘀，抗菌消炎</p>
+                            <div class="knowledge-tags">
+                                <span class="knowledge-tag">清热解毒</span>
+                                <span class="knowledge-tag">祛风止痛</span>
+                                <span class="knowledge-tag">抗菌消炎</span>
+                            </div>
+                            <button class="btn btn-primary-custom btn-sm mt-2" data-toggle="modal" data-target="#herbDetailModal" data-herb="九节茶">查看详情</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 配方与症候 -->
+        <div class="tab-pane fade" id="formulas" role="tabpanel">
+            <div class="section-container">
+                <h3 class="section-title">配方与症候</h3>
+                <p>提供针对不同亚健康状态的推荐药浴配方</p>
+                
+                <div class="formula-card">
+                    <h4>风湿关节痛配方</h4>
+                    <p><strong>适用症状：</strong>关节疼痛、肿胀、活动受限，遇寒加重</p>
+                    <p><strong>配方组成：</strong>九龙藤30g，走马胎20g，半枫荷25g，宽筋藤15g，海风藤15g</p>
+                    <p><strong>使用方法：</strong>将药材加水煎煮30分钟，取药液加入浴盆中，水温40-42℃，浸泡20-30分钟</p>
+                    <p><strong>使用周期：</strong>每日1次，连续使用7-10天为一疗程</p>
+                    <div class="knowledge-tags">
+                        <span class="knowledge-tag">风湿</span>
+                        <span class="knowledge-tag">关节痛</span>
+                        <span class="knowledge-tag">祛风除湿</span>
+                    </div>
+                </div>
+                
+                <div class="formula-card">
+                    <h4>失眠多梦配方</h4>
+                    <p><strong>适用症状：</strong>入睡困难、多梦易醒、睡眠质量差</p>
+                    <p><strong>配方组成：</strong>夜交藤20g，合欢皮15g，酸枣仁15g，远志10g，龙骨20g</p>
+                    <p><strong>使用方法：</strong>药材煎煮40分钟，药液加入浴盆，水温38-40℃，睡前浸泡15-20分钟</p>
+                    <p><strong>使用周期：</strong>每日1次，连续使用14天</p>
+                    <div class="knowledge-tags">
+                        <span class="knowledge-tag">失眠</span>
+                        <span class="knowledge-tag">多梦</span>
+                        <span class="knowledge-tag">安神助眠</span>
+                    </div>
+                </div>
+                
+                <div class="formula-card">
+                    <h4>产后调理配方</h4>
+                    <p><strong>适用症状：</strong>产后体虚、气血不足、关节酸痛</p>
+                    <p><strong>配方组成：</strong>血风藤25g，益母草20g，当归15g，黄芪15g，生姜10g</p>
+                    <p><strong>使用方法：</strong>药材煎煮30分钟，药液加入浴盆，水温39-41℃，浸泡15-20分钟</p>
+                    <p><strong>使用周期：</strong>产后2周开始使用，每周2-3次，连续4周</p>
+                    <div class="knowledge-tags">
+                        <span class="knowledge-tag">产后调理</span>
+                        <span class="knowledge-tag">补血活血</span>
+                        <span class="knowledge-tag">恢复体虚</span>
+                    </div>
+                </div>
+                
+                <div class="formula-card">
+                    <h4>皮肤瘙痒配方</h4>
+                    <p><strong>适用症状：</strong>皮肤干燥、瘙痒、湿疹</p>
+                    <p><strong>配方组成：</strong>地肤子15g，白鲜皮15g，苦参10g，黄柏10g，蛇床子10g</p>
+                    <p><strong>使用方法：</strong>药材煎煮30分钟，药液加入浴盆，水温37-39℃，浸泡15分钟</p>
+                    <p><strong>使用周期：</strong>每日1次，症状缓解后改为每周2-3次</p>
+                    <div class="knowledge-tags">
+                        <span class="knowledge-tag">皮肤瘙痒</span>
+                        <span class="knowledge-tag">湿疹</span>
+                        <span class="knowledge-tag">清热解毒</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 营销指南 -->
+        <div class="tab-pane fade" id="marketing" role="tabpanel">
+            <div class="section-container">
+                <h3 class="section-title">营销指南</h3>
+                <p>分享成功的营销案例、销售话术、门店管理经验</p>
+                
+                <div class="marketing-case">
+                    <h4>秋季养生药浴营销案例</h4>
+                    <p><strong>活动背景：</strong>针对秋季干燥、易感冒的季节特点，推出秋季养生药浴套餐</p>
+                    <p><strong>营销策略：</strong>通过微信公众号推文、线下门店海报、会员短信多渠道推广</p>
+                    <p><strong>销售话术：</strong>"秋季养生正当时，瑶族药浴助您增强免疫力，预防感冒"</p>
+                    <p><strong>成果：</strong>活动期间销售额提升35%，新客户增长28%</p>
+                    <div class="case-stats">
+                        <div class="case-stat">
+                            <div class="stat-value">35%</div>
+                            <div class="stat-label">销售额提升</div>
+                        </div>
+                        <div class="case-stat">
+                            <div class="stat-value">28%</div>
+                            <div class="stat-label">新客户增长</div>
+                        </div>
+                        <div class="case-stat">
+                            <div class="stat-value">42%</div>
+                            <div class="stat-label">客户复购率</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="marketing-case">
+                    <h4>肩颈调理专项营销方案</h4>
+                    <p><strong>目标客户：</strong>办公室白领、长期低头族、肩颈不适人群</p>
+                    <p><strong>营销渠道：</strong>写字楼电梯广告、职场健康讲座、企业团购优惠</p>
+                    <p><strong>销售话术：</strong>"每天15分钟瑶族药浴，缓解肩颈酸痛，提升工作效率"</p>
+                    <p><strong>门店管理：</strong>培训员工掌握专业按摩手法，提升客户体验</p>
+                    <div class="case-stats">
+                        <div class="case-stat">
+                            <div class="stat-value">68%</div>
+                            <div class="stat-label">客户满意度</div>
+                        </div>
+                        <div class="case-stat">
+                            <div class="stat-value">52%</div>
+                            <div class="stat-label">套餐转化率</div>
+                        </div>
+                        <div class="case-stat">
+                            <div class="stat-value">45%</div>
+                            <div class="stat-label">客户留存率</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="marketing-case">
+                    <h4>会员忠诚度提升策略</h4>
+                    <p><strong>策略要点：</strong>建立会员等级制度，提供差异化服务，增加会员粘性</p>
+                    <p><strong>实施方法：</strong>积分兑换、生日特权、会员专属活动、个性化推荐</p>
+                    <p><strong>沟通技巧：</strong>定期回访，关怀客户使用效果，收集反馈改进服务</p>
+                    <p><strong>成效：</strong>会员复购率提升40%，客单价增长25%</p>
+                    <div class="case-stats">
+                        <div class="case-stat">
+                            <div class="stat-value">40%</div>
+                            <div class="stat-label">复购率提升</div>
+                        </div>
+                        <div class="case-stat">
+                            <div class="stat-value">25%</div>
+                            <div class="stat-label">客单价增长</div>
+                        </div>
+                        <div class="case-stat">
+                            <div class="stat-value">75%</div>
+                            <div class="stat-label">会员满意度</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- 药材详情模态框 -->
+<div class="modal fade" id="herbDetailModal" tabindex="-1" role="dialog" aria-labelledby="herbDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="herbDetailModalLabel">药材详情</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="herbDetailContent">
+                <!-- 药材详情内容将通过JavaScript动态填充 -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>版权所有 &copy; 2025 瑶族药浴数据精准营销分析平台</p>
+    <p>客服热线: 400-123-4567 | 邮箱: support@yaozuyaoyu.com</p>
+</footer>
+
+<script src="https://demo-html-zip.oss-cn-hangzhou.aliyuncs.com/js/popper.min.js"></script>
+<script src="https://demo-html-zip.oss-cn-hangzhou.aliyuncs.com/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // 搜索功能
+        $('#knowledgeSearch').on('keyup', function() {
+            const searchTerm = $(this).val().toLowerCase();
+            const resultsContainer = $('#searchResults');
+            
+            if (searchTerm.length < 2) {
+                resultsContainer.hide();
+                return;
+            }
+            
+            // 模拟搜索结果
+            const results = [
+                { title: '九龙藤', category: '药材百科', description: '祛风除湿、活血止痛' },
+                { title: '风湿关节痛配方', category: '配方与症候', description: '针对关节疼痛、肿胀的配方' },
+                { title: '秋季养生营销案例', category: '营销指南', description: '提升销售额35%的成功案例' },
+                { title: '血风藤', category: '药材百科', description: '补血活血、舒筋活络' },
+                { title: '失眠多梦配方', category: '配方与症候', description: '改善睡眠质量的配方' }
+            ];
+            
+            const filteredResults = results.filter(item => 
+                item.title.toLowerCase().includes(searchTerm) || 
+                item.description.toLowerCase().includes(searchTerm)
+            );
+            
+            resultsContainer.empty();
+            
+            if (filteredResults.length > 0) {
+                filteredResults.forEach(result => {
+                    resultsContainer.append(`
+                        <div class="search-result-item" data-category="${result.category}">
+                            <h6>${result.title}</h6>
+                            <p class="mb-0 text-muted">${result.description}</p>
+                            <small class="text-info">${result.category}</small>
+                        </div>
+                    `);
+                });
+                resultsContainer.show();
+            } else {
+                resultsContainer.append('<div class="search-result-item">未找到相关结果</div>');
+                resultsContainer.show();
+            }
+        });
+        
+        // 点击搜索结果
+        $(document).on('click', '.search-result-item', function() {
+            const category = $(this).data('category');
+            $('#knowledgeSearch').val('');
+            $('#searchResults').hide();
+            
+            // 切换到对应的标签页
+            if (category === '药材百科') {
+                $('#herbs-tab').tab('show');
+            } else if (category === '配方与症候') {
+                $('#formulas-tab').tab('show');
+            } else if (category === '营销指南') {
+                $('#marketing-tab').tab('show');
+            }
+        });
+        
+        // 点击外部隐藏搜索结果
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.search-box').length) {
+                $('#searchResults').hide();
+            }
+        });
+        
+        // 分类导航
+        $('.category-item').click(function() {
+            $('.category-item').removeClass('active');
+            $(this).addClass('active');
+            
+            const category = $(this).data('category');
+            $('#knowledgeCategory').val(category);
+            
+            // 实际应用中这里会过滤显示对应分类的内容
+            console.log('切换到分类:', category);
+        });
+        
+        // 药材详情模态框
+        $('#herbDetailModal').on('show.bs.modal', function(event) {
+            const button = $(event.relatedTarget);
+            const herbName = button.data('herb');
+            const modal = $(this);
+            
+            // 根据药材名称加载详情内容
+            let content = '';
+            if (herbName === '九龙藤') {
+                content = `
+                    <h4>九龙藤</h4>
+                    <p><strong>别名：</strong>龙须藤、九龙根</p>
+                    <p><strong>性味：</strong>苦、辛，温</p>
+                    <p><strong>归经：</strong>肝、肾经</p>
+                    <p><strong>功效：</strong>祛风除湿，活血止痛，强筋健骨</p>
+                    <p><strong>主治：</strong>风湿痹痛，腰腿疼痛，跌打损伤，骨折</p>
+                    <p><strong>用法用量：</strong>内服：煎汤，10-15g；外用：适量，煎水洗或捣敷</p>
+                    <p><strong>禁忌：</strong>孕妇慎用</p>
+                    <p><strong>现代研究：</strong>具有抗炎、镇痛、抗氧化作用</p>
+                `;
+            } else if (herbName === '血风藤') {
+                content = `
+                    <h4>血风藤</h4>
+                    <p><strong>别名：</strong>鸡血藤、血藤</p>
+                    <p><strong>性味：</strong>苦、甘，温</p>
+                    <p><strong>归经：</strong>肝、肾经</p>
+                    <p><strong>功效：</strong>补血活血，舒筋活络</p>
+                    <p><strong>主治：</strong>血虚萎黄，麻木瘫痪，风湿痹痛，月经不调</p>
+                    <p><strong>用法用量：</strong>内服：煎汤，10-15g；外用：适量，煎水洗</p>
+                    <p><strong>禁忌：</strong>阴虚火旺者慎用</p>
+                    <p><strong>现代研究：</strong>具有促进造血、抗血栓、免疫调节作用</p>
+                `;
+            }
+            // 其他药材的详情内容...
+            
+            modal.find('.modal-title').text(herbName + ' - 药材详情');
+            modal.find('#herbDetailContent').html(content);
+        });
+    });
+</script>
+<script>
+    document.oncontextmenu = () => false;
+    document.onkeydown = function(e) {
+        if (e.keyCode === 123) return false;
+        if (e.ctrlKey && e.shiftKey && e.keyCode === 73) return false;
+        if (e.ctrlKey && e.keyCode === 85) return false;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瑶族药浴数据精准营销分析平台</title>
+    <link rel="stylesheet" href="https://demo-html-zip.oss-cn-hangzhou.aliyuncs.com/js/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif !important;
+            background-color: #f3f4f6;
+        }
+        .navbar, .footer {
+            background-color: #2c5530;
+        }
+        .main-content {
+            background-color: #f8f9fa;
+            min-height: 800px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        .card {
+            transition: transform 0.2s;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: none;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .kpi-card {
+            background: linear-gradient(135deg, #2c5530, #4a7c59);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .kpi-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .kpi-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        .quick-nav {
+            background-color: white;
+            text-align: center;
+            padding: 25px 15px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        .quick-nav:hover {
+            background-color: #e8f5e9;
+        }
+        .quick-nav-icon {
+            font-size: 2.5rem;
+            color: #2c5530;
+            margin-bottom: 15px;
+        }
+        .news-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .news-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        .recent-item {
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            margin-bottom: 10px;
+            border-left: 4px solid #2c5530;
+        }
+        .chart-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            height: 100%;
+        }
+        .chart-placeholder {
+            height: 200px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            color: #777;
+        }
+        .platform-title {
+            color: #2c5530;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .section-title {
+            color: #2c5530;
+            border-bottom: 2px solid #2c5530;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-leaf mr-2"></i>瑶族药浴数据精准营销分析平台
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupported" aria-controls="navbarSupported" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupported">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active"><a class="nav-link" href="首页.html">首页</a></li>
+                <li class="nav-item"><a class="nav-link" href="数据看板.html">数据看板</a></li>
+                <li class="nav-item"><a class="nav-link" href="客户洞察.html">客户洞察</a></li>
+                <li class="nav-item"><a class="nav-link" href="内容工坊.html">内容工坊</a></li>
+                <li class="nav-item"><a class="nav-link" href="营销活动.html">营销活动</a></li>
+                <li class="nav-item"><a class="nav-link" href="知识库.html">知识库</a></li>
+                <li class="nav-item"><a class="nav-link" href="个人账户.html">个人账户/商家后台</a></li>
+            </ul>
+            <div class="navbar-nav">
+                <a class="nav-link text-light" href="#"><i class="fas fa-bell"></i></a>
+                <a class="nav-link text-light" href="#"><i class="fas fa-user-circle"></i> 管理员</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container main-content fade-in">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="platform-title">瑶族药浴数据精准营销分析平台</h1>
+                <p class="text-muted">专业的数据分析工具，助力瑶族药浴业务增长</p>
+            </div>
+        </div>
+        
+        <!-- 核心数据总览 -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h3 class="section-title">核心数据总览</h3>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card kpi-card">
+                    <div class="card-body">
+                        <div class="kpi-label">总客户数</div>
+                        <div class="kpi-value">8,542</div>
+                        <div class="kpi-trend text-success">
+                            <i class="fas fa-arrow-up"></i> 12.5% 同比增长
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card kpi-card">
+                    <div class="card-body">
+                        <div class="kpi-label">本月销售额</div>
+                        <div class="kpi-value">¥286,420</div>
+                        <div class="kpi-trend text-success">
+                            <i class="fas fa-arrow-up"></i> 8.3% 环比增长
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card kpi-card">
+                    <div class="card-body">
+                        <div class="kpi-label">营销活动参与率</div>
+                        <div class="kpi-value">68.2%</div>
+                        <div class="kpi-trend text-warning">
+                            <i class="fas fa-minus"></i> 2.1% 环比下降
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card kpi-card">
+                    <div class="card-body">
+                        <div class="kpi-label">热门产品排行</div>
+                        <div class="kpi-value">肩颈调理</div>
+                        <div class="kpi-trend text-info">
+                            本月最受欢迎
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- 快捷导航入口 -->
+            <div class="col-md-8">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3 class="section-title">快捷导航入口</h3>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mb-3">
+                        <div class="card quick-nav">
+                            <div class="card-body">
+                                <div class="quick-nav-icon">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <h5>数据报告</h5>
+                                <p>查看详细数据分析报告</p>
+                                <a href="数据看板.html" class="btn btn-outline-success">进入</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mb-3">
+                        <div class="card quick-nav">
+                            <div class="card-body">
+                                <div class="quick-nav-icon">
+                                    <i class="fas fa-bullhorn"></i>
+                                </div>
+                                <h5>创建活动</h5>
+                                <p>策划新的营销活动</p>
+                                <a href="营销活动.html" class="btn btn-outline-success">进入</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mb-3">
+                        <div class="card quick-nav">
+                            <div class="card-body">
+                                <div class="quick-nav-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h5>客户分析</h5>
+                                <p>深入了解客户行为</p>
+                                <a href="客户洞察.html" class="btn btn-outline-success">进入</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mb-3">
+                        <div class="card quick-nav">
+                            <div class="card-body">
+                                <div class="quick-nav-icon">
+                                    <i class="fas fa-pen-fancy"></i>
+                                </div>
+                                <h5>内容创作</h5>
+                                <p>制作营销素材</p>
+                                <a href="内容工坊.html" class="btn btn-outline-success">进入</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mb-3">
+                        <div class="card quick-nav">
+                            <div class="card-body">
+                                <div class="quick-nav-icon">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                                <h5>知识库</h5>
+                                <p>查阅专业知识</p>
+                                <a href="知识库.html" class="btn btn-outline-success">进入</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 mb-3">
+                        <div class="card quick-nav">
+                            <div class="card-body">
+                                <div class="quick-nav-icon">
+                                    <i class="fas fa-cog"></i>
+                                </div>
+                                <h5>系统设置</h5>
+                                <p>管理账户和权限</p>
+                                <a href="个人账户.html" class="btn btn-outline-success">进入</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 最近访问/报告 -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="section-title">最近访问/报告</h3>
+                                <div class="recent-item">
+                                    <h5><i class="fas fa-file-alt text-primary mr-2"></i>2025年第三季度营销效果分析报告</h5>
+                                    <p class="text-muted">最后访问: 2025-10-30 14:30</p>
+                                </div>
+                                <div class="recent-item">
+                                    <h5><i class="fas fa-chart-pie text-success mr-2"></i>客户地域分布分析</h5>
+                                    <p class="text-muted">最后访问: 2025-10-30 09:45</p>
+                                </div>
+                                <div class="recent-item">
+                                    <h5><i class="fas fa-shopping-cart text-warning mr-2"></i>产品销量趋势预测</h5>
+                                    <p class="text-muted">最后访问: 2025-10-30 16:20</p>
+                                </div>
+                                <div class="text-right mt-3">
+                                    <a href="#" class="btn btn-outline-secondary">查看全部历史记录</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 动态消息与公告 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="section-title">动态消息与公告</h3>
+                        <div class="news-item">
+                            <h5><span class="badge badge-success">新功能</span> 客户细分模型已上线</h5>
+                            <p class="text-muted">新增基于购买行为的自动客户细分功能，帮助您更精准定位目标客户。</p>
+                            <small class="text-muted">发布时间: 2025-10-30</small>
+                        </div>
+                        <div class="news-item">
+                            <h5><span class="badge badge-info">行业资讯</span> 瑶族药浴入选非遗名录</h5>
+                            <p class="text-muted">瑶族传统药浴疗法正式入选国家级非物质文化遗产代表性项目名录。</p>
+                            <small class="text-muted">发布时间: 2025-10-30</small>
+                        </div>
+                        <div class="news-item">
+                            <h5><span class="badge badge-warning">维护通知</span> 系统将于本周六凌晨升级</h5>
+                            <p class="text-muted">为提升系统性能，平台将于10月21日凌晨2:00-4:00进行系统升级，期间可能无法访问。</p>
+                            <small class="text-muted">发布时间: 2025-10-30</small>
+                        </div>
+                        <div class="news-item">
+                            <h5><span class="badge badge-primary">活动</span> 秋季养生营销活动启动</h5>
+                            <p class="text-muted">秋季养生主题营销活动现已开始，平台提供专属营销模板和数据分析支持。</p>
+                            <small class="text-muted">发布时间: 2025-10-30</small>
+                        </div>
+                        <div class="text-right mt-3">
+                            <a href="#" class="btn btn-outline-secondary">查看更多公告</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer text-center text-light py-3">
+        <p>版权所有 &copy; 2025 瑶族药浴数据精准营销分析平台</p>
+        <p>客服热线: 400-123-4567 | 邮箱: support@yaozuyaoyu.com</p>
+    </footer>
+
+    <script src="https://demo-html-zip.oss-cn-hangzhou.aliyuncs.com/js/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://demo-html-zip.oss-cn-hangzhou.aliyuncs.com/js/popper.min.js"></script>
+    <script src="https://demo-html-zip.oss-cn-hangzhou.aliyuncs.com/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.fade-in').css('opacity', 0).animate({ opacity: 1 }, 1000);
+            setInterval(function() {
+                console.log("数据已更新");
+            }, 30000);
+        });
+    </script>
+    <script>
+        document.oncontextmenu = () => false;
+        document.onkeydown = function(e) {
+            if (e.keyCode === 123) return false;
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) return false;
+            if (e.ctrlKey && e.keyCode === 85) return false;
+        }
+    </script>
+</body>
+</html>
